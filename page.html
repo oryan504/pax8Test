@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Document</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--Materialize-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="style/custom.css">
+      <!-- Include your CSS here -->
+   </head>
+   <body ng-app="myApp">
+      <!-- Add your site or application content here -->
+      <div class="container" ng-controller="myCtrl">
+         <!--Loading-->
+         <div class="preloader-wrapper active" ng-if="dataLoading">
+            <div class="spinner-layer spinner-blue-only">
+               <div class="circle-clipper left">
+                  <div class="circle"></div>
+               </div>
+               <div class="gap-patch">
+                  <div class="circle"></div>
+               </div>
+               <div class="circle-clipper right">
+                  <div class="circle"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row" ng-if="!dataLoading">
+            <!--Search Select Section-->
+            <div class="col s12 m5 " id="search-section">
+               <h5>Find Products
+                  <a class="waves-effect waves-light btn  blue darken-4 right" ng-click="newSearch(product)">New Search</a>
+               </h5>
+               <br>
+               <div class="row form-group">
+                  <input type="text" class="form-control" ng-model="cData.searchInput" placeholder="Filter products" />
+               </div>
+               <label>Select Partner</label>
+               <select class="browser-default" ng-model="item" ng-change="choosePartner(item)">
+                  <option value={{item}} ng-repeat="item in cData.partners | filter:cData.searchInput">
+                     <a>{{item.name}}</a>
+                  </option>
+               </select>
+               <br>
+               <h6>Product List</h6>
+               <!--products-->
+               <div class="collection" ng-repeat="product in currentProducts | filter:cData.searchInput">
+                  <a href="#!" ng-click="displayProductDetails(product)" class="collection-item">{{product.name}}</a>
+               </div>
+            </div>
+            <!--Product View Section-->
+            <div class="col s12 m7" ng-if="cData.selectedProduct">
+               <div class="col-md-3">
+                  <div class="col-md-8 col-md-offset-1">
+                     <!--selected prduct bar-->
+                     <div class="navbar-fixed">
+                        <nav>
+                           <div class="nav-wrapper cyan">
+                              <a href="#!" class="brand-logo">{{cData.selectedProduct.name}}</a>
+                           </div>
+                        </nav>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-4 img-container">
+                           <img ng-src="img/{{cData.selectedProduct.imgPath}}" class="img-responsive" />
+                        </div>
+                        <div class="col-md-8">
+                           <p>{{cData.selectedProduct.description}}</p>
+                           <div><a class="btn  blue darken-4" ng-click="buyProduct(cData.selectedProduct)">Buy Product</a></div>
+                        </div>
+                        <br>
+                        <h4>Required Products</h4>
+                        {{requiresProductId}}                  
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+      <script src="script/app.js"></script>
+      <script src="script/controller/controller.js"></script>
+      <script src="script/service/helperService.js"></script>
+      <script src="script/service/myApisService.js"></script>
+   </body>
+</html>
